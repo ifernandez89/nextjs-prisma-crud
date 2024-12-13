@@ -1,21 +1,28 @@
 import { NextResponse } from "next/server";
 import {prisma} from '@/libs/prisma'
 
-export async function GET(request: Request, { params }: { params: { id: number } }) {
+export async function GET(request: Request, { params }: { params: { id: string } }) {
     try {
-      const task = await prisma.task.findUnique({
-        where: { id: params.id },
-      });
-  
-      if (!task) {
-        return NextResponse.json({ message: 'Task not found' }, { status: 404 });
+        // Convert the id to a number before passing it to Prisma
+        const taskId = parseInt(params.id, 10); // Convert string to number
+    
+        if (isNaN(taskId)) {
+          return NextResponse.json({ message: 'Invalid ID' }, { status: 400 });
+        }
+    
+        const task = await prisma.task.findUnique({
+          where: { id: taskId }, // Use the converted number
+        });
+    
+        if (!task) {
+          return NextResponse.json({ message: 'Task not found' }, { status: 404 });
+        }
+    
+        return NextResponse.json(task); // Return the task data
+      } catch (error) {
+        console.error("Error fetching task:", error);
+        return NextResponse.json({ message: 'Server error' }, { status: 500 });
       }
-  
-      return NextResponse.json(task);
-    } catch (error) {
-        console.error("Error fetching task:", error); // Log the error for debugging
-      return NextResponse.json({ message: 'Server error' }, { status: 500 });
-    }
   }
   export async function POST(request: Request) {
     try {
