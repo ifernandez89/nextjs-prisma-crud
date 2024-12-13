@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import {prisma} from '@/libs/prisma'
 
-export async function GET(request: Request, { params }: { params: { id: string } }) {
+export async function GET(request: Request, { params }: { params: { id: string } }){
     try {
         // Convert the id to a number before passing it to Prisma
         const taskId = parseInt(params.id, 10); // Convert string to number
