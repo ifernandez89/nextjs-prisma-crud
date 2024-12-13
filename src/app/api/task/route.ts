@@ -13,6 +13,7 @@ export async function GET(request: Request, { params }: { params: { id: number }
   
       return NextResponse.json(task);
     } catch (error) {
+        console.error("Error fetching task:", error); // Log the error for debugging
       return NextResponse.json({ message: 'Server error' }, { status: 500 });
     }
   }
@@ -30,6 +31,7 @@ export async function GET(request: Request, { params }: { params: { id: number }
   
       return NextResponse.json(newTask, { status: 201 });
     } catch (error) {
+        console.error("Error creating task:", error); // Log the error for debugging
       return NextResponse.json({ message: 'Error creating task' }, { status: 500 });
     }
 }
