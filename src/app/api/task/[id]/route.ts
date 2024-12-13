@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/libs/prisma";
 
-export async function GET(request: Request, { params }: { params: { id: string } }) {
+export async function GET(request: Request, context: { params: { id: string } }) {
   try {
     // Convert the 'id' from string to number
-    const taskId = Number(params.id);
+    const taskId = Number(context.params.id);
 
     if (isNaN(taskId)) {
       return NextResponse.json({ message: 'Invalid ID' }, { status: 400 });
