@@ -10,7 +10,6 @@ function NewPage({ params }: { params: Promise<{ id: string }> }) {
   const { handleSubmit, register, setValue } = useForm(); //usar el setValue para el edit REACTHOOKFORM
   const router = useRouter();
   const [unwrappedParams, setUnwrappedParams] = useState<{ id: string } | null>(null);
-  const [loading, setLoading] = useState(false);
 
   // Resolve the promise and set the unwrapped params
   useEffect(() => {
@@ -28,25 +27,13 @@ function NewPage({ params }: { params: Promise<{ id: string }> }) {
   }, [unwrappedParams, setValue]);
 
   const onSubmit = handleSubmit(async (data) => {
-    setLoading(true); // Activa el estado de carga
-    try {
-      if (unwrappedParams?.id) {
-        // PUT para editar
-        await axios.put(`/api/task/${unwrappedParams.id}`, data);
-      } else {
-        // POST para crear
-        await axios.post("/api/task", data);
-      }
-  
-      // Navega a la página de inicio después de la operación
-      router.push("/");
-    } catch (error) {
-      console.error("Error al enviar los datos:", error);
-      alert("Ocurrió un error. Por favor, inténtalo de nuevo."); // Manejo básico del error
-    } finally {
-      setLoading(false); // Finaliza el estado de carga
-      router.refresh(); // Actualiza la página
+    if (unwrappedParams?.id) {
+      await axios.put(`/api/task/${unwrappedParams.id}`, data); // PUT to edit
+    } else {
+      await axios.post("/api/task", data); // POST to create
     }
+    router.push("/"); // Redirect to the home route
+    router.refresh();
   });
 
   return (
