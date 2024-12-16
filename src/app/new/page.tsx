@@ -4,22 +4,16 @@ import axios from "axios";
 import { useRouter } from "next/navigation"; //redireccionar a otras paginas
 import { useEffect,useState } from "react";
 
-function NewPage({ params }: { params: { id: string } }) {
+function NewPage({ params }: { params: Promise<{ id: string }> }) {
   //items-center: alinear de forma vertical - justify-center: alinear de forma horizontal - block:se posisionan uno sobre el otro - w-full: ocupa todo el ancho(input/textarea)
   //mb-2: margin bottom 2(separacion entre el input y textarea)
   const { handleSubmit, register, setValue } = useForm(); //usar el setValue para el edit REACTHOOKFORM
   const router = useRouter();
   const [unwrappedParams, setUnwrappedParams] = useState<{ id: string } | null>(null);
 
-  // Unwrap the params using React.use()
+  // Resolve the promise and set the unwrapped params
   useEffect(() => {
-    if (params) {
-      const fetchParams = async () => {
-        const unwrapped = await params;
-        setUnwrappedParams(unwrapped); // Set unwrapped params to state
-      };
-      fetchParams();
-    }
+    params.then((resolvedParams) => setUnwrappedParams(resolvedParams));
   }, [params]);
 
   useEffect(() => {
