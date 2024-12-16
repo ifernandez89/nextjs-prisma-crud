@@ -4,7 +4,7 @@ import React from "react";
 function Navbar() {
   return (
     <nav className="flex justify-between py-4 flex-col">
-      
+      <main>
       <ul className="flex gap-4 justify-center">
         <li>
           <Link href="/" className="text-slate-600 hover:text-slate-400 text-xl">
@@ -17,6 +17,7 @@ function Navbar() {
           </Link>
         </li>
       </ul>
+      </main>
     </nav>
   );
 }
