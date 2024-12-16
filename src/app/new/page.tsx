@@ -117,7 +117,7 @@ function NewPage({ params }: { params: Promise<{ id: string }> }) {
           <div className="flex justify-between">
             <button
               type="submit"
-              className="bg-sky-500 px-3 py-1 rounded-md text-white mt-2"
+              className="bg-sky-500 px-3 py-1 rounded-md text-gray-900 mt-2"
               disabled={loading} // Deshabilita el botón durante la carga
             >
               {loading
@@ -142,8 +142,7 @@ function NewPage({ params }: { params: Promise<{ id: string }> }) {
       </section>
 
       <div>
-      <h2></h2>
-      <ul>
+          <ul>
         {data.map((task) => (
           <li key={task.id}>{task.title}</li> // Muestra las tareas en una lista
         ))}
