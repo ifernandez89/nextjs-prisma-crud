@@ -1,10 +1,12 @@
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 import { prisma } from "@/libs/prisma";
 
-export async function GET(request: Request, context: { params: { id: string } }) {
+export async function GET(req: NextRequest) {//export async function GET(request: Request, { params }: { params: { id: string } }) {
+  const url = req.nextUrl; // Extrae el objeto URL
+  const id = url.pathname.split('/').pop(); // Obtiene el valor de 'id' desde la ruta
   try {
     // Convert the 'id' from string to number
-    const taskId = Number(context.params.id);
+    const taskId = Number(id);
 
     if (isNaN(taskId)) {
       return NextResponse.json({ message: 'Invalid ID' }, { status: 400 });
@@ -27,21 +29,25 @@ export async function GET(request: Request, context: { params: { id: string } })
   }
 }
 
-export async function PUT(request: Request, { params } : { params: { id: string } }) {
-  const data = await request.json();
+export async function PUT(req: NextRequest) {//export async function PUT(request: Request, { params } : { params: { id: string } }) {
+  const url = req.nextUrl; // Extrae el objeto URL
+  const id = url.pathname.split('/').pop(); // Obtiene el valor de 'id' desde la ruta
+  const data = await req.json();
   const taskUpdated = await prisma.task.update({
     where: {
-      id: Number(params.id),
+      id: Number(id),
     },
     data: data,
   });
   return NextResponse.json(taskUpdated);
 }
 
-export async function DELETE(request: Request, { params } : { params: { id: string } }) {
+export async function DELETE(req: NextRequest) {//export async function DELETE(request: Request, { params } : { params: { id: string } }) {
+  const url = req.nextUrl; // Extrae el objeto URL
+  const id = url.pathname.split('/').pop(); // Obtiene el valor de 'id' desde la ruta
   const task = await prisma.task.delete({
     where: {
-      id: Number(params.id),
+      id: Number(id),
     },
   });
 
