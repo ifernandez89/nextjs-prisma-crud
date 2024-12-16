@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation"; //redireccionar a otras paginas
 import { useEffect, useState } from "react";
 
 interface Task {
-  id: number;   // O el tipo adecuado según tu base de datos
+  id: number; // O el tipo adecuado según tu base de datos
   title: string;
   description?: string; // Opcional, si es necesario
 }
@@ -142,12 +142,12 @@ function NewPage({ params }: { params: Promise<{ id: string }> }) {
       </section>
 
       <div>
-          <ul>
-        {data.map((task) => (
-          <li key={task.id}>{task.title}</li> // Muestra las tareas en una lista
-        ))}
-      </ul>
-    </div>
+        <ul>
+          {data.map((task) => (
+            <li key={task.id}>{task.title}</li> // Muestra las tareas en una lista
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }
