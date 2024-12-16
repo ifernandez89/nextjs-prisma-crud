@@ -4,6 +4,12 @@ import axios from "axios";
 import { useRouter } from "next/navigation"; //redireccionar a otras paginas
 import { useEffect, useState } from "react";
 
+interface Task {
+  id: number;   // O el tipo adecuado según tu base de datos
+  title: string;
+  description?: string; // Opcional, si es necesario
+}
+
 function NewPage({ params }: { params: Promise<{ id: string }> }) {
   //items-center: alinear de forma vertical - justify-center: alinear de forma horizontal - block:se posisionan uno sobre el otro - w-full: ocupa todo el ancho(input/textarea)
   //mb-2: margin bottom 2(separacion entre el input y textarea)
@@ -13,7 +19,7 @@ function NewPage({ params }: { params: Promise<{ id: string }> }) {
     null
   );
   const [loading, setLoading] = useState(false);
-  const [data, setData] = useState([]); // Estado para almacenar los datos de las tareas
+  const [data, setData] = useState<Task[]>([]); // Estado para almacenar los datos de las tareas
 
   // Resolve the promise and set the unwrapped params
   useEffect(() => {
@@ -134,6 +140,15 @@ function NewPage({ params }: { params: Promise<{ id: string }> }) {
           </div>
         </form>
       </section>
+
+      <div>
+      <h2></h2>
+      <ul>
+        {data.map((task) => (
+          <li key={task.id}>{task.title}</li> // Muestra las tareas en una lista
+        ))}
+      </ul>
+    </div>
     </div>
   );
 }
