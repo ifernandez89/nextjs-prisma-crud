@@ -48,6 +48,18 @@ function NewPage({ params }: { params: Promise<{ id: string }> }) {
     router.refresh(); // Actualiza la página
   }
 });
+const handleDelete = async () => {
+  if (confirm("¿Estás seguro de que quieres eliminar esta tarea?")) {
+    try {
+      await axios.delete(`/api/task/${unwrappedParams?.id}`);
+      router.push("/"); // Redirige a la página principal después de la eliminación
+      router.refresh(); // Actualiza la página
+    } catch (error) {
+      console.error("Error al eliminar la tarea:", error);
+      alert("No se pudo eliminar la tarea. Por favor, intenta nuevamente.");
+    }
+  }
+};
 
   return (
     <div>
@@ -76,23 +88,21 @@ function NewPage({ params }: { params: Promise<{ id: string }> }) {
             {...register("description")}
           />
           <div className="flex justify-between">
-            <button type="submit" className="bg-sky-500 px-3 py-1 rounded-md text-white mt-2">
-              {unwrappedParams?.id ? "Editar" : "Crear"}
+            <button type="submit" className="bg-sky-500 px-3 py-1 rounded-md text-white mt-2" disabled={loading} // Deshabilita el botón durante la carga
+            >
+              {loading ? "Cargando..." : unwrappedParams?.id ? "Editar" : "Crear"}
             </button>
 
-            <button
-              type="button"
-              className="bg-red-500 px-3 py-1 rounded-md text-white mt-2"
-              onClick={async () => {
-                if (confirm("Estas seguro que quieres eliminar esta tarea?")) {
-                  await axios.delete(`/api/task/${unwrappedParams?.id}`);
-                  router.push("/");
-                  router.refresh();
-                }
-              }}
-            >
-              Eliminar
-            </button>
+            {unwrappedParams?.id && (
+              <button
+                type="button"
+                className="bg-red-500 px-3 py-1 rounded-md text-white mt-2"
+                onClick={handleDelete}
+                disabled={loading} // Deshabilita el botón durante la carga
+              >
+                Eliminar
+              </button>
+            )}
           </div>
         </form>
       </section>
