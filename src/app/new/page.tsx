@@ -91,7 +91,7 @@ function NewPage({ params }: { params: Promise<{ id: string }> }) {
   return (
     <div>
       <section className="h-[calc(100vh-7rem)] flex items-center justify-center">
-        <form onSubmit={onSubmit} className="w-1/4">
+        <form onSubmit={onSubmit} className="w-1/4 bg-slate-800 p-10">
           <h1 className="text-3xl font-bold">
             {unwrappedParams?.id ? "Editar" : "Crear"} Tarea
           </h1>
